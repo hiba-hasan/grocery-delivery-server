@@ -118,12 +118,12 @@ export async function stripeWebHooks(req, res, next) {
   let event;
   try {
     event = stripeInstance.webhooks.constructEvent(
-      request.body,
+      req.body,
       sig,
       process.env.STRIPE_WEBHOOK_SECRET
     );
   } catch (error) {
-    response.status(400).send(`Webhook Error:${error.message}`);
+    return res.status(400).send(`Webhook Error:${error.message}`);
   }
 
   switch (event.type) {
@@ -151,12 +151,13 @@ export async function stripeWebHooks(req, res, next) {
 
       const { orderId } = session.data[0].metadata;
       await Order.findByIdAndDelete(orderId);
+      break;
     }
 
     default:
       console.error(`Unhandled Event Type:${event.type}`);
   }
-  response.json({ received: true });
+  res.json({ received: true });
 }
 
 export async function getUserOrders(req, res, next) {
