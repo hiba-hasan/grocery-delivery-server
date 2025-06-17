@@ -103,3 +103,31 @@ export async function signOut(req, res, next) {
     next(error);
   }
 }
+
+export async function isUserAuth(req, res, next) {
+  try {
+    const { token } = req.cookies;
+    if (!token) {
+      const error = new Error("User is not authorized");
+      error.statusCode = 401;
+      throw error;
+    }
+    const decode = jwt.verify(token, process.env.JWT_SECRET);
+    if (!decode) {
+      const error = new Error("Unauthorized");
+      error.statusCode = 401;
+      throw error;
+    }
+
+    const user = await User.findById(decode.id);
+    if (!user) {
+      const error = new Error("UnAuthorized");
+      error.statusCode = 401;
+      throw error;
+    }
+
+    res
+      .status(200)
+      .json({ success: true, message: "User is Authorized", user });
+  } catch (error) {}
+}

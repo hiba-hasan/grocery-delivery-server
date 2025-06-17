@@ -1,4 +1,5 @@
 import Product from "../models/product.models.js";
+import { v2 as cloudinary } from "cloudinary";
 
 export async function addProduct(req, res, next) {
   try {
@@ -7,7 +8,7 @@ export async function addProduct(req, res, next) {
 
     let imagesUrl = await Promise.all(
       images.map(async (item) => {
-        let result = await cloudinary.uploader.upload(image.path, {
+        let result = await cloudinary.uploader.upload(item.path, {
           resource_type: "image",
         });
         return result.secure_url;

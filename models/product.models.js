@@ -16,7 +16,9 @@ const productSchema = new mongoose.Schema(
     image: { type: Array, required: [true, "Product Image is Required"] },
     inStock: {
       type: Boolean,
+
       required: [true, "Mentioning of inStock is Required"],
+      default: true,
     },
   },
   { timestamps: true }

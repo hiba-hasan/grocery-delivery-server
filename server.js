@@ -11,9 +11,12 @@ import productRouter from "./routes/product.routes.js";
 import cartRouter from "./routes/cart.routes.js";
 import addressRouter from "./routes/address.routes.js";
 import orderRouter from "./routes/order.routes.js";
+import { stripeWebHooks } from "./controllers/order.controllers.js";
 
 const app = express();
 const port = process.env.PORT || 4000;
+
+app.post("/stripe", express.raw({ type: "application/json" }), stripeWebHooks);
 
 //middlewares:
 app.use(express.json());
@@ -24,7 +27,7 @@ app.get("/", (req, res) => {
   res.send("API IS WORKING");
 });
 
-app.use("/api/users", userRouter);
+app.use("/api/user", userRouter);
 app.use("/api/seller", sellerRouter);
 app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);

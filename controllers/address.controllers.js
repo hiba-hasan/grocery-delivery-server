@@ -2,7 +2,9 @@ import Address from "../models/address.models.js";
 
 export async function addAddress(req, res, next) {
   try {
-    const { userId, address } = req.body;
+    const { address } = req.body;
+    const user = req.user;
+    const userId = user._id;
     await Address.create({ ...address, userId });
     res
       .status(201)
@@ -14,8 +16,12 @@ export async function addAddress(req, res, next) {
 
 export async function getAddress(req, res, next) {
   try {
-    const { userId } = req.body;
-    const addresses = Address.find({ userId });
+    const user = req.user;
+
+    const userId = String(user._id);
+    console.log("UserID", userId);
+    const addresses = await Address.find({ userId });
+    console.log("Address: ", addresses);
     res.status(200).json({ success: true, addresses });
   } catch (error) {
     next(error);
