@@ -22,18 +22,7 @@ This is the backend server for the **Grocery Delivery Application(GROCERYGO)**, 
 - **Environment Configs:** dotenv
 - **Deployment:** Vercel + GitHub
 
-## Project Structure
-configs
-  cloudinary config,multer and database connection
-controllers
-  logic for user,seller,product,cart,address,order
-middlewares
-  user authentication, seller authentication and error handling middleware
-models
-  mongoose schemas: user,order,adderess,product
-routes
-  api route files
-server.js
+
 
     
   
